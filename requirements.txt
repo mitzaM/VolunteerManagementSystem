@@ -1,0 +1,17 @@
+appdirs==1.4.3
+aspy.yaml==0.3.0
+cached-property==1.3.0
+Django==1.11.1
+django-debug-toolbar==1.5
+nodeenv==1.1.2
+packaging==16.8
+pre-commit==0.13.6
+psycopg2==2.6.1
+pyparsing==2.2.0
+pytz==2017.2
+PyYAML==3.12
+requests==2.8.1
+six==1.10.0
+sqlparse==0.2.3
+virtualenv==15.1.0
+-e git+git@github.com:mitzaM/VolunteerManagementSystem.git@4b89764985fcb4070027fe67925c22d3ad7eb20a#egg=VolunteerManagementSystem

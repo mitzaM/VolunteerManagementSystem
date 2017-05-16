@@ -1,0 +1,13 @@
+-   repo: git://github.com/pre-commit/pre-commit-hooks
+    sha: 5bf6c09bfa1297d3692cadd621ef95f1284e33c0
+    stages:
+    - commit
+    - push
+    hooks:
+    -   id: trailing-whitespace
+    -   id: debug-statements
+    -   id: flake8
+        args:
+        - --max-line-length=80
+        - --max-complexity=10
+        - --exclude=*migrations*
