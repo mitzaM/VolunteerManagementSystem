@@ -14,4 +14,4 @@ requests==2.8.1
 six==1.10.0
 sqlparse==0.2.3
 virtualenv==15.1.0
--e git+git@github.com:mitzaM/VolunteerManagementSystem.git@4b89764985fcb4070027fe67925c22d3ad7eb20a#egg=VolunteerManagementSystem
+-e git+git@github.com:mitzaM/VolunteerManagementSystem.git#egg=VolunteerManagementSystem
