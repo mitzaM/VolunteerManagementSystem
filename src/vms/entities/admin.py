@@ -20,7 +20,7 @@ class MovieAdmin(admin.ModelAdmin):
 @admin.register(Volunteer)
 class VolunteerAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'age', 'phone_1', 'language_1',
-                    'language_2']
+                    'language_2', 'language_3', 'language_4']
 
 
 @admin.register(Projection)
