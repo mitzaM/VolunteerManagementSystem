@@ -54,6 +54,12 @@ class Location(models.Model):
         help_text="Format: '0XXX XXX XXX'",
     )
 
+    laptop_sn = models.CharField(
+        null=True, blank=True,
+        max_length=10,
+        verbose_name="Laptop serial number",
+    )
+
     def __str__(self):
         return "{}".format(self.name)
 

@@ -13,7 +13,9 @@ class AvailabilityInline(admin.TabularInline):
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = ['name', 'manager_name', 'manager_phone',
-                    'assistant_1_name', 'assistant_2_phone']
+                    'assistant_1_name', 'assistant_1_phone',
+                    'assistant_2_name', 'assistant_2_phone',
+                    'laptop_sn']
 
 
 @admin.register(Movie)
