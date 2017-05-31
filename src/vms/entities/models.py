@@ -26,19 +26,36 @@ class Location(models.Model):
         help_text="Format: '0XXX XXX XXX'",
     )
 
-    assistant_name = models.CharField(
+    assistant_1_name = models.CharField(
         null=True, blank=True,
         max_length=127,
         verbose_name="Assistant name",
     )
 
-    assistant_phone = models.CharField(
+    assistant_1_phone = models.CharField(
         null=True, blank=True,
         max_length=50,
         validators=[telephone_regex, ],
         verbose_name="Assistant phone",
         help_text="Format: '0XXX XXX XXX'",
     )
+
+    assistant_2_name = models.CharField(
+        null=True, blank=True,
+        max_length=127,
+        verbose_name="Assistant name",
+    )
+
+    assistant_2_phone = models.CharField(
+        null=True, blank=True,
+        max_length=50,
+        validators=[telephone_regex, ],
+        verbose_name="Assistant phone",
+        help_text="Format: '0XXX XXX XXX'",
+    )
+
+    def __str__(self):
+        return "{}".format(self.name)
 
 
 class Movie(models.Model):
@@ -98,6 +115,9 @@ class Movie(models.Model):
         verbose_name="Electronic subtitle 2 format",
     )
 
+    def __str__(self):
+        return "{}".format(self.original_name)
+
 
 class Volunteer(models.Model):
     name = models.CharField(
@@ -125,6 +145,9 @@ class Volunteer(models.Model):
     language_3 = models.CharField(max_length=127, null=True, blank=True)
     language_4 = models.CharField(max_length=127, null=True, blank=True)
 
+    def __str__(self):
+        return "{}".format(self.name)
+
 
 class Projection(models.Model):
     date = models.DateTimeField()
@@ -138,3 +161,37 @@ class Projection(models.Model):
         null=True, blank=True,
         max_length=255,
     )
+
+    def __str__(self):
+        return "{}: {} - {}".format(self.date, self.location, self.movie)
+
+
+class Availability(models.Model):
+    DAYS = [
+        (2, "2 iunie"),
+        (3, "3 iunie"),
+        (4, "4 iunie"),
+        (5, "5 iunie"),
+        (6, "6 iunie"),
+        (7, "7 iunie"),
+        (8, "8 iunie"),
+        (9, "9 iunie"),
+        (10, "10 iunie"),
+        (11, "11 iunie"),
+    ]
+    day = models.IntegerField(choices=DAYS)
+    start = models.TimeField()
+    end = models.TimeField()
+    volunteer = models.ForeignKey('Volunteer')
+
+    class Meta:
+        verbose_name_plural = "Availabilities"
+
+
+class VolunteerSchedule(models.Model):
+    projection = models.ForeignKey('Projection')
+    volunteer = models.ForeignKey('Volunteer')
+
+
+class Laptop(models.Model):
+    pass
