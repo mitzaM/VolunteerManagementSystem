@@ -1,8 +1,9 @@
 import csv
+import pytz
 from datetime import datetime
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.utils.timezone import localtime
 
 from vms.entities.models import Movie, Location, Projection
 
@@ -45,11 +46,12 @@ class Command(BaseCommand):
                 date = datetime.strptime("{} {}".format(
                     row["Start day"], row["Start time"]
                 ), "%d.%m.%Y %H:%M")
+                date = pytz.timezone(settings.TIME_ZONE).localize(date)
                 location = Location.objects.get(
                     name=self.locations.get(row["Venue > Name"]))
 
                 _, created = Projection.objects.get_or_create(
-                    date=localtime(date), location=location, movie=movie
+                    date=date, location=location, movie=movie
                 )
                 if created:
                     nr += 1
