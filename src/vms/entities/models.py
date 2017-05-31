@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from django.utils.timezone import localtime
 
 telephone_regex = RegexValidator(
         regex=r"^0\d{3}\s\d{3}\s\d{3}$",
@@ -65,8 +66,9 @@ class Location(models.Model):
 
 
 class Movie(models.Model):
-    original_name = models.CharField(max_length=127)
-    romanian_name = models.CharField(max_length=127)
+    original_title = models.CharField(max_length=127)
+    english_title = models.CharField(max_length=127)
+    romanian_title = models.CharField(max_length=127)
     duration = models.PositiveIntegerField(
         null=True, blank=True,
         verbose_name="Duration (minutes)",
@@ -122,7 +124,7 @@ class Movie(models.Model):
     )
 
     def __str__(self):
-        return "{}".format(self.original_name)
+        return "{}".format(self.romanian_title)
 
 
 class Volunteer(models.Model):
@@ -169,7 +171,8 @@ class Projection(models.Model):
     )
 
     def __str__(self):
-        return "{}: {} - {}".format(self.date, self.location, self.movie)
+        return "{}: {} - {}".format(localtime(self.date), self.location,
+                                    self.movie)
 
 
 class Availability(models.Model):
@@ -197,6 +200,9 @@ class Availability(models.Model):
 class VolunteerSchedule(models.Model):
     projection = models.ForeignKey('Projection')
     volunteer = models.ForeignKey('Volunteer')
+
+    def __str__(self):
+        return "{}: {}".format(self.projection, self.volunteer)
 
 
 class Laptop(models.Model):

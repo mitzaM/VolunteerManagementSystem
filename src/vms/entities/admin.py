@@ -20,10 +20,10 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ['original_name', 'romanian_name', 'duration', 'format',
-                    'over18', 'spoken_language_1', 'spoken_language_2',
-                    'original_subtitle', 'electronic_sub_1_language',
-                    'electronic_sub_2_format']
+    list_display = ['original_title', 'english_title', 'romanian_title',
+                    'duration', 'format', 'over18', 'spoken_language_1',
+                    'spoken_language_2', 'original_subtitle',
+                    'electronic_sub_1_language', 'electronic_sub_2_format']
 
 
 @admin.register(Volunteer)

@@ -101,5 +101,5 @@ ENV/
 .mypy_cache/
 
 src/static/
-volunteers.csv
+*.csv
 tiff_db.sql
