@@ -1,6 +1,8 @@
+from datetime import timedelta
+
 from django.core.validators import RegexValidator
 from django.db import models
-from django.utils.timezone import localtime
+from django.utils.timezone import localtime, now
 
 telephone_regex = RegexValidator(
         regex=r"^0\d{3}\s\d{3}\s\d{3}$",
@@ -60,9 +62,13 @@ class Location(models.Model):
         max_length=10,
         verbose_name="Laptop serial number",
     )
+    internal_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return "{}".format(self.name)
+
+    class Meta:
+        ordering = ['internal_id']
 
 
 class Movie(models.Model):
@@ -124,7 +130,7 @@ class Movie(models.Model):
     )
 
     def __str__(self):
-        return "{}".format(self.romanian_title)
+        return "{} ({})".format(self.romanian_title, self.duration)
 
 
 class Volunteer(models.Model):
@@ -174,6 +180,9 @@ class Projection(models.Model):
         return "{}: {} - {}".format(localtime(self.date), self.location,
                                     self.movie)
 
+    class Meta:
+        ordering = ['date']
+
 
 class Availability(models.Model):
     DAYS = [
@@ -197,12 +206,23 @@ class Availability(models.Model):
         verbose_name_plural = "Availabilities"
 
 
+class ScheduleQuerySet(models.query.QuerySet):
+    def current(self):
+        start = now() + timedelta(minutes=15)
+        return self.filter(projection__date__lte=start)
+
+
 class VolunteerSchedule(models.Model):
     projection = models.ForeignKey('Projection')
-    volunteer = models.ForeignKey('Volunteer')
+    volunteer_1 = models.ForeignKey('Volunteer', related_name='volunteer_1')
+    volunteer_2 = models.ForeignKey('Volunteer', null=True, blank=True,
+                                    related_name='volunteer_2')
+
+    objects = ScheduleQuerySet.as_manager()
 
     def __str__(self):
-        return "{}: {}".format(self.projection, self.volunteer)
+        return "{}: {}, {}".format(self.projection,
+                                   self.volunteer_1, self.volunteer_2)
 
 
 class Laptop(models.Model):

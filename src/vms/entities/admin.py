@@ -41,4 +41,4 @@ class ProjectionAdmin(admin.ModelAdmin):
 
 @admin.register(VolunteerSchedule)
 class VolunteerScheduleAdmin(admin.ModelAdmin):
-    list_display = ['volunteer', 'projection']
+    list_display = ['projection', 'volunteer_1', 'volunteer_2']
