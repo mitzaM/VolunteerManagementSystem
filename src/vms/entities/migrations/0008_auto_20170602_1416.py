@@ -17,6 +17,10 @@ class Migration(migrations.Migration):
             name='projection',
             options={'ordering': ['date']},
         ),
+        migrations.RemoveField(
+            model_name='volunteerschedule',
+            name='volunteer',
+        ),
         migrations.AddField(
             model_name='volunteerschedule',
             name='volunteer_1',
