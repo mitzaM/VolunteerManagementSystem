@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Volunteers List</title>
-    </head>
+{% extends "base.html" %}
 
-    <body>
-        {% for object in object_list %}
-            <p>{{ object.name }} - {{ object.phone_1 }} - {{ object.email }}</p>
-        {% endfor %}
-    </body>
-</html>
+{% load staticfiles %}
+
+{% block head_title %}Volunteers List{% endblock %}
+
+{% block body_content %}
+    {% for volunteer in object_list %}
+        <p>{{ volunteer.name }} - {{ volunteer.phone_1 }} - {{ volunteer.email }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "css/volunteers.css" %}" />
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static "js/volunteers.js" %}"></script>
+{% endblock %}

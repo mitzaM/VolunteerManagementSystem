@@ -101,5 +101,4 @@ ENV/
 .mypy_cache/
 
 src/static/
-*.csv
-tiff_db.sql
+files/
