@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models import F, Q
 from django.utils.timezone import localtime, now
 
 telephone_regex = RegexValidator(
@@ -75,8 +76,7 @@ class Movie(models.Model):
     original_title = models.CharField(max_length=127)
     english_title = models.CharField(max_length=127)
     romanian_title = models.CharField(max_length=127)
-    duration = models.PositiveIntegerField(
-        null=True, blank=True,
+    duration = models.DurationField(
         verbose_name="Duration (minutes)",
         help_text="Movie duration in minutes.",
     )
@@ -162,6 +162,10 @@ class Volunteer(models.Model):
     def __str__(self):
         return "{}".format(self.name)
 
+    @property
+    def schedule(self):
+        return (self.schedule_1.all() | self.schedule_2.all()).distinct()
+
 
 class Projection(models.Model):
     date = models.DateTimeField()
@@ -182,6 +186,10 @@ class Projection(models.Model):
 
     class Meta:
         ordering = ['date']
+
+    def _set_date(self, new_date, commit=True):
+        self.date = new_date
+        commit and self.save()
 
 
 class Availability(models.Model):
@@ -208,15 +216,17 @@ class Availability(models.Model):
 
 class ScheduleQuerySet(models.query.QuerySet):
     def current(self):
-        start = now() + timedelta(minutes=15)
-        return self.filter(projection__date__lte=start)
+        start = now() - F('projection__movie__duration')
+        end = now() + timedelta(minutes=15)
+        q = Q(projection__date__gte=start) & Q(projection__date__lte=end)
+        return self.filter(q)
 
 
 class VolunteerSchedule(models.Model):
-    projection = models.ForeignKey('Projection')
-    volunteer_1 = models.ForeignKey('Volunteer', related_name='volunteer_1')
+    projection = models.ForeignKey('Projection', related_name='schedule')
+    volunteer_1 = models.ForeignKey('Volunteer', related_name='schedule_1')
     volunteer_2 = models.ForeignKey('Volunteer', null=True, blank=True,
-                                    related_name='volunteer_2')
+                                    related_name='schedule_2')
 
     objects = ScheduleQuerySet.as_manager()
 

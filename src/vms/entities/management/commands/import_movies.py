@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         nr = 0
-        with open("eventival.csv") as f:
+        with open("files/eventival.csv") as f:
             reader = csv.DictReader(f, fieldnames=self.fields)
             next(reader)
             for row in reader:

@@ -43,7 +43,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         nr = 0
-        with open("volunteers.csv") as f:
+        with open("files/volunteers.csv") as f:
             reader = csv.DictReader(f, fieldnames=self.fields)
             next(reader)
             for row in reader:
