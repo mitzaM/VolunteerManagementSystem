@@ -1,14 +1,13 @@
 from datetime import timedelta
 
-from django.http import HttpResponse
 from django.utils.timezone import now
 from django.views.generic import ListView, TemplateView
 
 from vms.entities.models import Volunteer, VolunteerSchedule
 
 
-def index(request):
-    return HttpResponse("Hello, world. TIFF Volunteer Management System.")
+class HomeView(TemplateView):
+    template_name = 'home.html'
 
 
 class VolunteersView(ListView):
