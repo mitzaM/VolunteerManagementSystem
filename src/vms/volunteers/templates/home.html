@@ -2,4 +2,15 @@
 
 {% block head_title %}Home{% endblock %}
 
-{% block body_content %}Hello, world. TIFF Volunteer Management System.{% endblock %}
+{% block content_area %}
+    <div class="page-content login">
+        <div class="col-sm-10">
+            <div class="login-container" style="width: 450px;">
+                <h4>Welcome to TIFF Volunteer Management System.</h4>
+                {% if not user or not user.is_authenticated %}
+                    <h4><a href="{% url 'login' %}">Please log in.</a></h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

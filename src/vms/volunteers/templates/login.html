@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head_title %}Login{% endblock %}
+
+{% load form_fields %}
+
+{% block content_area %}
+    <div class="page-content login">
+        <div class="col-sm-10">
+            <div class="login-container">
+                <form class="form-horizontal" role="form" method="post">
+                    {% csrf_token %}
+                    {% input_element form.username %}
+                    {% input_element form.password %}
+
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    <button type="submit" class="btn btn-primary pull-right">Login</button>
+                </form>
+
+                {% if form.errors %}
+                    <p>Your username and password didn't match. Please try again.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

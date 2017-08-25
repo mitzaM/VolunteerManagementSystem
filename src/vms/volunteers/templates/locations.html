@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block head_title %}Locations{% endblock %}
+
+{% block content_area %}
+    <div class="page-content">
+        <div class="col-sm-12">
+            <h3>Locations</h3>
+            <table id="location-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Manager Name</th>
+                        <th>Manager Phone Number</th>
+                        <th>Assistant Name</th>
+                        <th>Assistant Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for location in object_list %}
+                        <tr>
+                            <td>{{ location.name }}</td>
+                            <td>{{ location.manager_name }}</td>
+                            <td>{{ location.manager_phone }}</td>
+                            <td>{% if location.assistant_1_name %}{{ location.assistant_1_name }}{% else %}<i class="ace-icon fa fa-lg red fa-times"></i>{% endif %}</td>
+                            <td>{% if location.assistant_1_phone %}{{ location.assistant_1_phone }}{% else %}<i class="ace-icon fa fa-lg red fa-times"></i>{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,1 @@
+{% for object in schedule %}{{ object.projection.location.internal_id }},{{ object.volunteer_1.name }},{{ object.volunteer_1.phone_1 }},{{ object.volunteer_2.name }},{{ object.volunteer_2.phone_1 }},{% endfor %}.

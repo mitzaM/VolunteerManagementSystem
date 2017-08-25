@@ -1,4 +1,5 @@
 from datetime import timedelta
+import uuid
 
 from django.core.validators import RegexValidator
 from django.db import models
@@ -12,7 +13,20 @@ telephone_regex = RegexValidator(
     )
 
 
-class Location(models.Model):
+class CID(models.Model):
+    cid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        verbose_name="Content ID",
+        help_text="Unique PBS identifier",
+        db_index=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Location(CID, models.Model):
     name = models.CharField(
         max_length=127,
         verbose_name="Location name",
@@ -72,7 +86,7 @@ class Location(models.Model):
         ordering = ['internal_id']
 
 
-class Movie(models.Model):
+class Movie(CID, models.Model):
     original_title = models.CharField(max_length=127)
     english_title = models.CharField(max_length=127)
     romanian_title = models.CharField(max_length=127)
@@ -133,7 +147,7 @@ class Movie(models.Model):
         return "{} ({})".format(self.romanian_title, self.duration)
 
 
-class Volunteer(models.Model):
+class Volunteer(CID, models.Model):
     name = models.CharField(
         max_length=127,
         verbose_name="Volunteer name",
@@ -167,7 +181,7 @@ class Volunteer(models.Model):
         return (self.schedule_1.all() | self.schedule_2.all()).distinct()
 
 
-class Projection(models.Model):
+class Projection(CID, models.Model):
     date = models.DateTimeField()
     location = models.ForeignKey('Location')
     movie = models.ForeignKey('Movie')
@@ -191,8 +205,16 @@ class Projection(models.Model):
         self.date = new_date
         commit and self.save()
 
+    @property
+    def day(self):
+        return localtime(self.date).strftime("%d %b %Y")
 
-class Availability(models.Model):
+    @property
+    def hour(self):
+        return localtime(self.date).strftime("%H:%M")
+
+
+class Availability(CID, models.Model):
     DAYS = [
         (2, "2 iunie"),
         (3, "3 iunie"),
@@ -222,7 +244,7 @@ class ScheduleQuerySet(models.query.QuerySet):
         return self.filter(q)
 
 
-class VolunteerSchedule(models.Model):
+class VolunteerSchedule(CID, models.Model):
     projection = models.ForeignKey('Projection', related_name='schedule')
     volunteer_1 = models.ForeignKey('Volunteer', related_name='schedule_1')
     volunteer_2 = models.ForeignKey('Volunteer', null=True, blank=True,

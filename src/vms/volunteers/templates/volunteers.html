@@ -2,18 +2,30 @@
 
 {% load staticfiles %}
 
-{% block head_title %}Volunteers List{% endblock %}
+{% block head_title %}Volunteers{% endblock %}
 
-{% block body_content %}
-    {% for volunteer in object_list %}
-        <p>{{ volunteer.name }} - {{ volunteer.phone_1 }} - {{ volunteer.email }}</p>
-    {% endfor %}
-{% endblock %}
-
-{% block extra_styles %}
-    <link rel="stylesheet" href="{% static "css/volunteers.css" %}" />
-{% endblock %}
-
-{% block extra_scripts %}
-    <script src="{% static "js/volunteers.js" %}"></script>
+{% block content_area %}
+    <div class="page-content">
+        <div class="col-sm-12">
+            <h3>Volunteers</h3>
+            <table id="volunteer-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>E-mail Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for volunteer in object_list %}
+                        <tr>
+                            <td>{{ volunteer.name }}</td>
+                            <td>{{ volunteer.phone_1 }}</td>
+                            <td>{{ volunteer.email }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
