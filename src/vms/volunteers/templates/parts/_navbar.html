@@ -1,0 +1,50 @@
+{% load staticfiles %}
+
+<div id="navbar" class="navbar navbar-default">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('navbar', 'fixed');
+        } catch(e) {}
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="{% url 'volunteers:home_page' %}" class="navbar-brand">
+                <img src="{% static "tiff.png" %}" width="25"  height="25"/>
+                <small> Volunteer Management System</small>
+            </a>
+        </div>
+
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                {% if user and user.is_authenticated %}
+                    <li class="light-blue">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <i class="ace-icon fa fa-user"></i>
+                                {{ user.email|default:user.username }}
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close navbar-grey">
+                            <li>
+                                <a href="{% url 'volunteers:schedule_api' %}">
+                                    <i class="ace-icon fa fa-adn"></i>
+                                    Schedule API
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="light-blue" style="width: 70px;">
+                        <a href="{% url 'login' %}" class="dropdown-toggle">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
