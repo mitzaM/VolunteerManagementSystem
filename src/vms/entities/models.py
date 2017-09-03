@@ -4,7 +4,7 @@ import uuid
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import F, Q
-from django.utils.timezone import localtime, now
+from django.utils.timezone import localtime
 
 telephone_regex = RegexValidator(
         regex=r"^0\d{3}\s\d{3}\s\d{3}$",
@@ -195,8 +195,8 @@ class Projection(CID, models.Model):
     )
 
     def __str__(self):
-        return "{}: {} - {}".format(localtime(self.date), self.location,
-                                    self.movie)
+        return "{} {}: {} - {}".format(self.day, self.hour,
+                                       self.location, self.movie)
 
     class Meta:
         ordering = ['date']
@@ -238,8 +238,8 @@ class Availability(CID, models.Model):
 
 class ScheduleQuerySet(models.query.QuerySet):
     def current(self):
-        start = now() - F('projection__movie__duration')
-        end = now() + timedelta(minutes=15)
+        start = localtime() - timedelta(minutes=10) - F('projection__movie__duration')
+        end = localtime() + timedelta(minutes=15)
         q = Q(projection__date__gte=start) & Q(projection__date__lte=end)
         return self.filter(q)
 

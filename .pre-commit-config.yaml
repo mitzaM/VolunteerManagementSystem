@@ -8,6 +8,6 @@
     -   id: debug-statements
     -   id: flake8
         args:
-        - --max-line-length=80
+        - --max-line-length=100
         - --max-complexity=10
         - --exclude=*migrations*

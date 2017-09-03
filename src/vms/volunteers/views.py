@@ -1,10 +1,9 @@
-from datetime import timedelta
-
 from django.contrib.auth.views import LoginView, LogoutView
-from django.utils.timezone import now
-from django.views.generic import ListView, TemplateView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
 
 from vms.entities.models import Volunteer, VolunteerSchedule, Location
+from vms.volunteers.forms import AddScheduleForm, EditScheduleForm
 
 
 class HomeView(TemplateView):
@@ -38,6 +37,26 @@ class ScheduleView(ListView):
         return qs.order_by('projection__date')
 
 
+class ScheduleAddView(CreateView):
+    model = VolunteerSchedule
+    form_class = AddScheduleForm
+    template_name = 'schedule_add.html'
+    success_url = reverse_lazy('volunteers:schedule')
+
+
+class ScheduleEditView(UpdateView):
+    model = VolunteerSchedule
+    form_class = EditScheduleForm
+    template_name = 'schedule_edit.html'
+    success_url = reverse_lazy('volunteers:schedule')
+
+
+class ScheduleDeleteView(DeleteView):
+    model = VolunteerSchedule
+    template_name = 'schedule_delete.html'
+    success_url = reverse_lazy('volunteers:schedule')
+
+
 class ScheduleApiView(ListView):
     model = VolunteerSchedule
     template_name = 'schedule_api'
@@ -45,14 +64,6 @@ class ScheduleApiView(ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.current().order_by('projection__date')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        qs = self.get_queryset()
-
-        context['schedule'] = [proj for proj in qs if now() <= proj.projection.date + timedelta(
-            minutes=proj.projection.movie.duration)]
-        return context
 
 
 class MockSchedule(TemplateView):

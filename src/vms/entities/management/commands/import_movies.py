@@ -1,4 +1,5 @@
 import csv
+from datetime import timedelta
 
 from django.core.management.base import BaseCommand
 
@@ -24,7 +25,7 @@ class Command(BaseCommand):
                     defaults={
                         'english_title': row['Film(package) english title'],
                         'romanian_title': row['Film(package) local title'],
-                        'duration': row['Runtime screening only(minutes)'],
+                        'duration': timedelta(minutes=int(row['Runtime screening only(minutes)'])),
                     }
                 )
                 if created:

@@ -8,15 +8,15 @@
     </label>
 
     <div class="col-sm-8 col-lg-8">
-        <input class="form-control"
-                type="{{ field.field.widget.input_type }}"
-                id="{{ field.id_for_label }}"
-                name="{{ field.html_name }}"
-                {% if field.field.max_length %}maxlength="{{ field.field.max_length }}"{% endif %}
-                placeholder="{{ field.label }}"
-                value="{% if field.value %}{{ field.value }}{% endif %}">
+        <input id="{{ field.id_for_label }}"
+               class="form-control"
+               name="{{ field.html_name }}"
+               type="{{ field.field.widget.input_type }}"
+               {% if field.field.max_length %}maxlength="{{ field.field.max_length }}"{% endif %}
+               placeholder="{{ field.label }}"
+               value="{% if field.value %}{{ field.value }}{% endif %}">
         {% if field.errors %}
-            <div id="{{ field.id_for_label }}_error" class="help-block col-xs-12 col-sm-reset inline">{{ field.errors }}</div>
+            <div id="{{ field.id_for_label }}_error" class="help-block col-xs-12 col-sm-reset">{{ field.errors }}</div>
         {% endif %}
     </div>
 </div>

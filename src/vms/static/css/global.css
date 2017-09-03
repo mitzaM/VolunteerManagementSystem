@@ -5,3 +5,11 @@
 .login-container {
     text-align: center;
 }
+
+.home-container {
+    width: 450px;
+}
+
+#login-btn {
+    width: 70px;
+}

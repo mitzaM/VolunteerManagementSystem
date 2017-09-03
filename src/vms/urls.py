@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from vms.volunteers.urls import urlpatterns as volunteer_urls
-from vms.volunteers.views.base import VMSLogin, VMSLogout
+from vms.volunteers.views import VMSLogin, VMSLogout
 
 urlpatterns = [
     url(r'^', include(volunteer_urls, namespace='volunteers')),
