@@ -2,12 +2,29 @@
     padding-top: 3%;
 }
 
-.login-container {
+.login-container, .home-container, .schedule-container {
+    margin: 0 auto;
     text-align: center;
 }
 
 .home-container {
     width: 450px;
+}
+
+div > .errorlist {
+    text-align: left;
+}
+
+.cancel-btn {
+    margin-left: 15px;
+}
+
+.delete-btn {
+    margin-left: 10px;
+}
+
+#add-schedule-btn {
+     margin-top: 15px;
 }
 
 #login-btn {

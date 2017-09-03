@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head_title %}Edit Volunteer Schedule{% endblock %}
+
+{% load form_fields %}
+
+{% block content_area %}
+    <div class="page-content">
+        <div class="col-sm-12">
+            <h3>Edit Volunteer Schedule</h3>
+            <div class="schedule-container">
+                <form class="form-horizontal" role="form" method="post">
+                    {% csrf_token %}
+                    {% select_element form.projection %}
+                    {% select_element form.volunteer_1 %}
+                    {% select_element form.volunteer_2 %}
+
+                    <a href="{% url 'volunteers:schedule' %}" class="btn pull-right cancel-btn">
+                        <i class="ace-icon fa fa-times bigger-110"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary pull-right">
+                        <i class="ace-icon fa fa-check"></i>Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
