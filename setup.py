@@ -31,7 +31,7 @@ setup(
     install_requires=[
         'Django>=1.10',
         'pytz==2017.2',
-        'requests==2.8.1',
+        'requests>=2.8.1',
         'psycopg2==2.6.1',
         'django-debug-toolbar==1.5',
     ],
