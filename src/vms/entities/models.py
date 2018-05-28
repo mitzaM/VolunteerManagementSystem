@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 import uuid
 
 from django.core.validators import RegexValidator
@@ -159,7 +159,12 @@ class ScheduleQuerySet(models.query.QuerySet):
 
 
 class VolunteerSchedule(CID, models.Model):
-    projection = models.ForeignKey('Projection', related_name='schedule')
+    projection = models.ForeignKey(
+        'Projection', related_name='schedule',
+        limit_choices_to={'date__gte': datetime(year=datetime.now().year,
+                                                month=datetime.now().month,
+                                                day=datetime.now().day)}
+    )
     volunteer_1 = models.ForeignKey('Volunteer', related_name='schedule_1')
     volunteer_2 = models.ForeignKey('Volunteer', null=True, blank=True, related_name='schedule_2')
 

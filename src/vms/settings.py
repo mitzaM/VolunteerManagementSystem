@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tiff_db',
+        'NAME': 'tiff_db_2018',
         'USER': 'tiff_user',
         'PASSWORD': os.environ['DB_PWD'],
         'HOST': '127.0.0.1',
