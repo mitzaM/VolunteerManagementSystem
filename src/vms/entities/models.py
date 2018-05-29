@@ -97,6 +97,9 @@ class Volunteer(CID, models.Model):
     def __str__(self):
         return "{}".format(self.name)
 
+    class Meta:
+        ordering = ['name']
+
     @property
     def schedule(self):
         return (self.schedule_1.all() | self.schedule_2.all()).distinct()
@@ -161,9 +164,9 @@ class ScheduleQuerySet(models.query.QuerySet):
 class VolunteerSchedule(CID, models.Model):
     projection = models.ForeignKey(
         'Projection', related_name='schedule',
-        limit_choices_to={'date__gte': datetime(year=datetime.now().year,
-                                                month=datetime.now().month,
-                                                day=datetime.now().day)}
+        limit_choices_to={'date__gte': datetime(year=localtime().year,
+                                                month=localtime().month,
+                                                day=localtime().day)}
     )
     volunteer_1 = models.ForeignKey('Volunteer', related_name='schedule_1')
     volunteer_2 = models.ForeignKey('Volunteer', null=True, blank=True, related_name='schedule_2')
