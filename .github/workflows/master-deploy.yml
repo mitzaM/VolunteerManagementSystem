@@ -1,14 +1,12 @@
-name: Docker
+name: CI
 
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 env:
-  IMAGE_NAME: vms
-  REGISTRY: registry.digitalocean.com/mitza-docker-registry
+  IMAGE_NAME: "vms"
+  REGISTRY: "registry.digitalocean.com/mitza-docker-registry"
 
 jobs:
   build_and_push:
@@ -27,9 +25,27 @@ jobs:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
     - name: Log in to DigitalOcean Container Registry with short-lived credentials
-      run: doctl registry login --expiry-seconds 600
+      run: doctl registry login --expiry-seconds 180
 
     - name: Push image
       run: |
         docker tag $IMAGE_NAME $REGISTRY/$IMAGE_NAME
         docker push $REGISTRY/$IMAGE_NAME
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: build_and_push
+    steps:
+      - name: Deploy to DigitalOcean droplet via SSH action
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSHKEY }}
+          envs: IMAGE_NAME,REGISTRY,{{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          script: |
+            docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
+            docker stop $IMAGE_NAME
+            docker rm $IMAGE_NAME
+            docker run -d --restart always --name $IMAGE_NAME $REGISTRY/$IMAGE_NAME:latest
