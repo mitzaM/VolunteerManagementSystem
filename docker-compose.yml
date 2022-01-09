@@ -7,7 +7,10 @@ services:
       - '.env'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - default
   web:
+    image: "vms:latest"
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
     volumes:
@@ -16,6 +19,8 @@ services:
       - 8000:8000
     depends_on:
       - db
+    networks:
+      - default
 
 volumes:
   postgres_data:

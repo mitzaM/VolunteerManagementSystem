@@ -16,6 +16,15 @@ jobs:
     - name: Checkout master
       uses: actions/checkout@v2
 
+    - name: Add environment variables to .env
+      run: |
+        echo "ENVIRONMENT=production" >> .env
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+        echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+        echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+        echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+        echo "POSTGRES_HOST_AUTH_METHOD=md5" >> .env
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
@@ -26,6 +35,9 @@ jobs:
 
     - name: Log in to DigitalOcean Container Registry with short-lived credentials
       run: doctl registry login --expiry-seconds 180
+
+    - name: Remove all old images
+      run: if [ ! -z "$(doctl registry repository list | grep "$IMAGE_NAME")" ]; then doctl registry repository delete-manifest $IMAGE_NAME $(doctl registry repository list-tags $IMAGE_NAME | grep -o "sha.*") --force; else echo "No repository"; fi
 
     - name: Push image
       run: |
