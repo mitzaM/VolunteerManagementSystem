@@ -68,6 +68,9 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# IDE stuff
+.idea/
+
 # pyenv
 .python-version
 
@@ -106,3 +109,5 @@ pyvenv*/
 
 src/static/
 files/
+*.swp
+
