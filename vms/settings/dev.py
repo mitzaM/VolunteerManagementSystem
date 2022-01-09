@@ -1,8 +1,5 @@
-from .settings import *  # noqa: F403
-
 DEBUG = True
-
-ALLOWED_HOSTS.extend(['0.0.0.0', 'localhost'])  # noqa: F405
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 SECURE_CONTENT_TYPE_NOSNIFF = False
