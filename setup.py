@@ -33,7 +33,7 @@ setup(
         'pytz==2017.2',
         'requests>=2.8.1',
         'psycopg2==2.6.1',
-        'django-debug-toolbar==1.5',
+        'django-debug-toolbar==1.11.1',
     ],
 
     license='GNU GENERAL PUBLIC License',
